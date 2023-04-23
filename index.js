@@ -1,33 +1,20 @@
 const express = require('express');
+const handle = require('./outer');
 
 const app = express();
 
-// app.use(express.json());
+app.set('view engine', 'ejs');
 
-// app.use(express.raw());
-// app.use(express.text());
 
-// access static folder 
+app.route('/about/mission')
+    .get((req, res)=>{
+        res.render('pages/home.ejs')
+    })
+    .post((req, res)=>{
+        res.send('Post Response')
+    })
 
-// app.use(express.static(`${__dirname}/public/`, {
-//     index : "home.html"
-// }))
 
-const router = express.Router({
-    caseSensitive : true,
-});
-
-app.use(router);
-
-router.get('/About', (req, res)=>{
-    res.send('This is home page!');
-})
-
-app.post('/', (req, res)=>{
-
-    res.send('This is home page with post method');
-
-})
 
 app.listen(3000, ()=>{
     console.log('listening port 3000');
