@@ -1,20 +1,24 @@
 const express = require('express');
-const handle = require('./outer');
+const handler = require('./outer');
+const cookieParser = require('cookie-parser');
 
 const app = express();
+app.use(express.json());
+app.use(cookieParser());
 
-app.set('view engine', 'ejs');
+const adminRouter = express.Router();
 
+adminRouter.get("/dashboard", (req, res) =>{
+    res.send('We are in dashboard');
+})
+app.use('/admin', adminRouter);
 
-app.route('/about/mission')
-    .get((req, res)=>{
-        res.render('pages/home.ejs')
-    })
-    .post((req, res)=>{
-        res.send('Post Response')
-    })
+app.get('/user/:id',handler )
+app.get('/check/',(req, res) =>{
 
+    console.log(req.accepts('json'));
 
+} )
 
 app.listen(3000, ()=>{
     console.log('listening port 3000');
